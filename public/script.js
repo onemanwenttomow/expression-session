@@ -1,5 +1,6 @@
 const video = document.getElementById('video');
 const expressionContainer = document.getElementById('expression');
+const spinner = document.getElementById('spinner-container');
 const expressionOptions = {
     neutral: "😐",
     happy: "😃",
@@ -11,9 +12,8 @@ const expressionOptions = {
 }
 
 Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-      faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-    //   faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+    faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
     faceapi.nets.faceExpressionNet.loadFromUri('/models')
 ]).then(getMedia)
 
@@ -33,13 +33,18 @@ async function getMedia() {
 }
 
 video.addEventListener('play', () => {
+    expressionContainer.classList.remove('hidden');
+    video.classList.remove('hidden');
+    spinner.classList.add('hidden');
     setInterval(async () => {
         const detections = await faceapi.detectSingleFace(
             video,
             new faceapi.TinyFaceDetectorOptions()
         ).withFaceLandmarks().withFaceExpressions();
         const expression = getPredictedExpression(detections);
-        if (!expression) { return; }
+        if (!expression) {
+            return;
+        }
         console.log('expression: ', expression);
         expressionContainer.innerText = expressionOptions[expression];
     }, 100)

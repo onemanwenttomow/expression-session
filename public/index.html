@@ -8,10 +8,16 @@
 </head>
 <body>
 
-    <video id="video" width="760" height="560" autoplay muted></video>
 
-    <h2 id="expression">Expression</h2>
-    
+    <div class="container">
+        <div id="spinner-container">
+            <h2>Loading models... please wait</h2>
+            <div class="spinner"></div>
+        </div>
+        <video id="video" width=320 height="180" autoplay muted class="hidden"></video>
+        <h2 id="expression" class="hidden">😐</h2>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
     <script src="lib/face-api-min.js"></script>
     <script src="script.js"></script>
