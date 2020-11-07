@@ -1,8 +1,18 @@
 const video = document.getElementById('video');
+const expressionContainer = document.getElementById('expression');
+const expressionOptions = {
+    neutral: "😐",
+    happy: "😃",
+    sad: "😥",
+    angry: "😠",
+    fearful: "😱",
+    disgusted: "🤢",
+    surprised: "😮"
+}
 
 Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-    //   faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+      faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
     //   faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
     faceapi.nets.faceExpressionNet.loadFromUri('/models')
 ]).then(getMedia)
@@ -24,21 +34,24 @@ async function getMedia() {
 
 video.addEventListener('play', () => {
     setInterval(async () => {
-        const detections = await faceapi.detectAllFaces(
+        const detections = await faceapi.detectSingleFace(
             video,
             new faceapi.TinyFaceDetectorOptions()
-        ).withFaceExpressions();
-        console.log('detections: ', detections[0]?.expressions);
-        const obj = detections[0]?.expressions;
-        if (!obj) {
-            return;
-        }
-        const arr = Object.keys(obj).map(exp => {
-            return [exp, obj[exp]]
-        }).sort((a, b) => b[1] - a[1])
-        const expression = arr[0][0]
-        console.log('expression: ',expression);
-        console.log('arr: ',arr);
-        console.log('detections: ',detections[0]);
+        ).withFaceLandmarks().withFaceExpressions();
+        const expression = getPredictedExpression(detections);
+        if (!expression) { return; }
+        console.log('expression: ', expression);
+        expressionContainer.innerText = expressionOptions[expression];
     }, 100)
 })
+
+function getPredictedExpression(guess) {
+    const obj = guess?.expressions;
+    if (!obj) {
+        return;
+    }
+    const arr = Object.keys(obj).map(exp => {
+        return [exp, obj[exp]]
+    }).sort((a, b) => b[1] - a[1])
+    return arr[0][0];
+}

@@ -1,3 +1,8 @@
 body {
     background-color: bisque;
 }
+
+#expression {
+    font-size: 100px;
+    margin: 0;
+}
