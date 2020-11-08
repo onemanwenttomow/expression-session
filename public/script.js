@@ -1,6 +1,7 @@
 const video = document.getElementById('video');
 const expressionContainer = document.getElementById('expression');
 const spinner = document.getElementById('spinner-container');
+const challenges = document.getElementById('challenges');
 const expressionOptions = {
     neutral: "😐",
     happy: "😃",
@@ -10,6 +11,15 @@ const expressionOptions = {
     disgusted: "🤢",
     surprised: "😮"
 }
+const emojisArray = Object.values(expressionOptions);
+console.log('emojisArray: ',emojisArray);
+let randomEmojis = [...Array(10)].map(el => {
+    return {
+        completed: false,
+        emoji: emojisArray[Math.floor(Math.random() * emojisArray.length)]
+    }
+})
+console.log('randomEmojis: ',randomEmojis);
 
 Promise.all([
     faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
@@ -36,6 +46,7 @@ video.addEventListener('play', () => {
     expressionContainer.classList.remove('hidden');
     video.classList.remove('hidden');
     spinner.classList.add('hidden');
+    challenges.innerText = randomEmojis.map(ob => ob.emoji);
     setInterval(async () => {
         const detections = await faceapi.detectSingleFace(
             video,

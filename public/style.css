@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: bisque;
+    background-color: #f1f3f8;
 }
 
 .hidden {
@@ -16,16 +16,23 @@ body {
     transform: translateX(-50%);
 }
 
-.container {
-    position: relative;
-    min-height: 100vh;
+#user-emotions {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.container {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #expression {
-    font-size: 200px;
+    font-size: 150px;
     margin: 0;
 }
 
