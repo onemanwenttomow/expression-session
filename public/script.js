@@ -11,7 +11,7 @@ const expressionOptions = {
     sad: "😥",
     angry: "😠",
     fearful: "😱",
-    // disgusted: "🤢",
+    disgusted: "🤢",
     surprised: "😮",
 };
 const emojisArray = Object.values(expressionOptions);
