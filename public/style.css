@@ -10,6 +10,24 @@ body {
     visibility: hidden;
 }
 
+.challenge-emoji {
+    font-size: 50px;
+    opacity: 0.5;
+    padding: 10px;
+}
+
+.challenge-emoji.current {
+    font-size: 100px;
+    opacity: 1;
+}
+
+.challenge-emoji.completed {
+    font-size: 50px;
+    opacity: 1;
+    background-color: green;
+    transition: all 0.5s;
+}
+
 #spinner-container {
     position: absolute;
     left: 50%;
