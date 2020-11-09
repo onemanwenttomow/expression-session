@@ -32,7 +32,7 @@ Promise.all([
 
 const constraints = {
     audio: false,
-    video: true,
+    video: { facingMode: "user" }
 };
 
 async function getMedia() {
@@ -64,7 +64,7 @@ new Vue({
         emojis: emojiArray,
         gameStarted: false,
         playerWon: false,
-        timeSinceLastCompletition: 0
+        timeSinceLastCompletition: 0,
     },
     mounted: function () {
         video.addEventListener("play", () => {
