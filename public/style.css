@@ -5,10 +5,41 @@
     box-sizing: border-box;
 }
 
-[v-cloak] {display: none}
+[v-cloak] {
+    display: none;
+}
 
 body {
     background-color: #f1f3f8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Raleway', sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 10px;
+}
+
+main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    padding: 20px;
+    text-align: center;
+}
+
+footer a {
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
 }
 
 .hidden {
@@ -47,15 +78,6 @@ body {
     align-items: center;
 }
 
-.container {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 #expression {
     position: absolute;
     right: 0;
@@ -63,7 +85,6 @@ body {
     font-size: 50px;
     margin: 0;
 }
-
 
 .spinner {
     width: 40px;
@@ -77,27 +98,27 @@ body {
 
 @-webkit-keyframes sk-rotateplane {
     0% {
-        -webkit-transform: perspective(120px)
+        -webkit-transform: perspective(120px);
     }
 
     50% {
-        -webkit-transform: perspective(120px) rotateY(180deg)
+        -webkit-transform: perspective(120px) rotateY(180deg);
     }
 
     100% {
-        -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+        -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
     }
 }
 
 @keyframes sk-rotateplane {
     0% {
         transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-        -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+        -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
     }
 
     50% {
         transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-        -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+        -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
     }
 
     100% {
