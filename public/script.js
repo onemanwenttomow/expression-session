@@ -63,6 +63,7 @@ new Vue({
     data: {
         emojis: emojiArray,
         playerWon: false,
+        timeSinceLastCompletition: 0
     },
     mounted: function () {
         video.addEventListener("play", () => {
@@ -96,9 +97,15 @@ new Vue({
             this.userMatchedExpression(expression);
         },
         userMatchedExpression: function (expression) {
+            const date = new Date();
+            const timeInMs = date.getTime();
             const currentChallenge = this.emojis.find((emoji) => !emoji.completed);
+            if (timeInMs - this.timeSinceLastCompletition <= 1000) {
+                return;
+            }
             if (expression === currentChallenge.emoji) {
                 currentChallenge.completed = true;
+                this.timeSinceLastCompletition = timeInMs;
                 completedSoundEffect.play();
             }
         },
