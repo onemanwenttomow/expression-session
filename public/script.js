@@ -62,6 +62,7 @@ new Vue({
     el: "#challenges",
     data: {
         emojis: emojiArray,
+        gameStarted: false,
         playerWon: false,
         timeSinceLastCompletition: 0
     },
@@ -70,6 +71,7 @@ new Vue({
             expressionContainer.classList.remove("hidden");
             video.classList.remove("hidden");
             spinner.classList.add("hidden");
+            this.gameStarted = true;
             setInterval(this.checkForExpression, 100);
         });
     },

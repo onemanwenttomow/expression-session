@@ -1,6 +1,11 @@
+/* https://colorhunt.co/palette/213311 */
+
 * {
     margin: 0;
+    box-sizing: border-box;
 }
+
+[v-cloak] {display: none}
 
 body {
     background-color: #f1f3f8;
@@ -19,12 +24,13 @@ body {
 .challenge-emoji.current {
     font-size: 100px;
     opacity: 1;
+    background-color: #01c5c4;
 }
 
 .challenge-emoji.completed {
     font-size: 50px;
     opacity: 1;
-    background-color: green;
+    background-color: #b8de6f;
     transition: all 0.5s;
 }
 
@@ -35,6 +41,7 @@ body {
 }
 
 #user-emotions {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,7 +57,10 @@ body {
 }
 
 #expression {
-    font-size: 150px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 50px;
     margin: 0;
 }
 

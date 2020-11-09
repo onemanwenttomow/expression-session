@@ -16,7 +16,7 @@
                 <video id="video" width="320" height="180" autoplay muted class="hidden"></video>
                 <h2 id="expression" class="hidden">😐</h2>
             </div>
-            <div id="challenges">
+            <div id="challenges" v-if="gameStarted" v-cloak>
                 <span
                     v-for="{ emoji, completed, current } in emojis"
                     :class="{ 'completed': completed, 'current': current }"
