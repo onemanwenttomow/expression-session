@@ -11,17 +11,11 @@ const expressionOptions = {
     sad: "😥",
     angry: "😠",
     fearful: "😱",
-    disgusted: "🤢",
+    // disgusted: "🤢",
     surprised: "😮",
 };
 const emojisArray = Object.values(expressionOptions);
-const emojiArray = [...Array(10)].map((el) => {
-    return {
-        completed: false,
-        emoji: emojisArray[Math.floor(Math.random() * emojisArray.length)],
-        current: false,
-    };
-});
+const emojiArray = generateRandomEmojiArray()
 console.log("emojisArray: ", emojisArray);
 
 Promise.all([
@@ -45,6 +39,16 @@ async function getMedia() {
     }
 }
 
+function generateRandomEmojiArray() {
+    return [...Array(10)].map((el) => {
+        return {
+            completed: false,
+            emoji: emojisArray[Math.floor(Math.random() * emojisArray.length)],
+            current: false,
+        };
+    });
+}
+
 function getPredictedExpression(guess) {
     const obj = guess?.expressions;
     if (!obj) {
@@ -61,21 +65,49 @@ function getPredictedExpression(guess) {
 new Vue({
     el: "#challenges",
     data: {
-        emojis: emojiArray,
+        emojis: [],
         gameStarted: false,
         playerWon: false,
-        timeSinceLastCompletition: 0
+        timeSinceLastCompletition: 0,
     },
     mounted: function () {
         video.addEventListener("play", () => {
             expressionContainer.classList.remove("hidden");
             video.classList.remove("hidden");
             spinner.classList.add("hidden");
-            this.gameStarted = true;
+            this.startGame();
             setInterval(this.checkForExpression, 100);
         });
     },
+    computed: {
+        current: function () {
+            let currentChallenge = this.emojis.find((emoji) => !emoji.completed);
+            return currentChallenge ? currentChallenge.emoji : "✔️";
+        },
+        completed: function () {
+            return this.emojis.filter((emoji) => emoji.completed);
+        },
+        upComing: function () {
+            const upComingEmojisArray = this.emojis.filter((emoji) => !emoji.completed).slice(1);
+            return upComingEmojisArray.length === 0 && this.playerWon ?
+                [{ emoji: "Play Again?" }] : 
+                upComingEmojisArray;
+        },
+    },
     methods: {
+        newGame: function () {
+            if (!this.playerWon) {
+                return;
+            }
+            this.startGame();
+        },
+        startGame: function () {
+            this.gameStarted = true;
+            this.emojis = generateRandomEmojiArray();
+            this.emojis[0].current = true;
+            this.playerWon = false;
+            this.timeSinceLastCompletition = 0;
+        },
         checkForExpression: async function () {
             const detections = await faceapi
                 .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
@@ -95,18 +127,18 @@ new Vue({
                 this.playerWon = true;
                 return;
             }
-            currentChallenge.current = "true";
-            this.userMatchedExpression(expression);
+            currentChallenge.current = true;
+            this.userMatchedExpression(expression, currentChallenge);
         },
-        userMatchedExpression: function (expression) {
+        userMatchedExpression: function (expression, currentChallenge) {
             const date = new Date();
             const timeInMs = date.getTime();
-            const currentChallenge = this.emojis.find((emoji) => !emoji.completed);
             if (timeInMs - this.timeSinceLastCompletition <= 1000) {
                 return;
             }
             if (expression === currentChallenge.emoji) {
                 currentChallenge.completed = true;
+                currentChallenge.current = false;
                 this.timeSinceLastCompletition = timeInMs;
                 completedSoundEffect.play();
             }

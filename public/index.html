@@ -3,14 +3,16 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
         <link rel="stylesheet" href="style.css" />
         <title>Expression Session</title>
     </head>
     <body>
-
         <header>
-            <h1>EXPRESSION SESSION: Complete the expressions as fast as you can</h1>
+            <h1>EXPRESSION SESSION</h1>
         </header>
 
         <main>
@@ -23,14 +25,22 @@
                 <h2 id="expression" class="hidden">😐</h2>
             </div>
             <div id="challenges" v-if="gameStarted" v-cloak>
-                <span
-                    v-for="{ emoji, completed, current } in emojis"
-                    :class="{ 'completed': completed, 'current': current }"
-                    class="challenge-emoji" 
-                >{{ emoji }}</span>
+                <div class="completed-container">
+                    <span class="challenge-emoji completed" v-for="{emoji} in completed"
+                        >{{emoji}}</span
+                    >
+                </div>
+                <div class="challenge-emoji current">{{current}}</div>
+                <div class="upcoming-container">
+                    <span class="challenge-emoji" v-for="{emoji} in upComing" @click="newGame">{{emoji}}</span>
+                </div>
             </div>
         </main>
-        <footer>Built with <a href="https://www.tensorflow.org/js">TensorFlow.js</a>, <a href="https://github.com/justadudewhohacks/face-api.js/">face-api.js</a>, <a href="https://vuejs.org/">Vue.js</a> and 💟</footer>
+        <footer>
+            Built with <a href="https://www.tensorflow.org/js">TensorFlow.js</a>,
+            <a href="https://github.com/justadudewhohacks/face-api.js/">face-api.js</a>,
+            <a href="https://vuejs.org/">Vue.js</a> and 💟
+        </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
         <script src="lib/face-api-min.js"></script>
