@@ -4,6 +4,7 @@ const spinner = document.getElementById("spinner-container");
 const challenges = document.getElementById("challenges");
 const completedSoundEffect = new Audio("sound/coin-2.wav");
 const winningSoundEffect = new Audio("sound/win-2.wav");
+const linkForFavicon = document.querySelector(`head > link[rel='icon']`);
 
 const expressionOptions = {
     neutral: "😐",
@@ -15,7 +16,7 @@ const expressionOptions = {
     surprised: "😮",
 };
 const emojisArray = Object.values(expressionOptions);
-const emojiArray = generateRandomEmojiArray()
+const emojiArray = generateRandomEmojiArray();
 console.log("emojisArray: ", emojisArray);
 
 Promise.all([
@@ -36,8 +37,9 @@ async function getMedia() {
         video.srcObject = stream;
     } catch (err) {
         console.error(err);
-        console.log('setting string...');
-        spinner.innerHTML = "<h1>Sorry, something went wrong. Please try again here <a href='https://expression-session.herokuapp.com/'>here</a></h1>"
+        console.log("setting string...");
+        spinner.innerHTML =
+            "<h1>Sorry, something went wrong. Please try again here <a href='https://expression-session.herokuapp.com/'>here</a></h1>";
     }
 }
 
@@ -91,9 +93,9 @@ new Vue({
         },
         upComing: function () {
             const upComingEmojisArray = this.emojis.filter((emoji) => !emoji.completed).slice(1);
-            return upComingEmojisArray.length === 0 && this.playerWon ?
-                [{ emoji: "Play Again?" }] : 
-                upComingEmojisArray;
+            return upComingEmojisArray.length === 0 && this.playerWon
+                ? [{ emoji: "Play Again?" }]
+                : upComingEmojisArray;
         },
     },
     methods: {
@@ -121,6 +123,21 @@ new Vue({
             }
             expressionContainer.innerText = expressionOptions[expression];
             this.getCurrentChallenge(expressionOptions[expression]);
+            this.updateFavicon(expressionOptions[expression]);
+        },
+        updateFavicon(expression) {
+            let newFavicon = this.faviconTemplate(expression);
+            console.log('newFavicon: ',newFavicon);
+            linkForFavicon.setAttribute(`href`, `data:image/svg+xml,${newFavicon}`);
+        },
+        faviconTemplate: function (icon) {
+            return `
+                <svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22>
+                    <text y=%22.9em%22 font-size=%2290%22>
+                    ${icon}
+                    </text>
+                </svg>
+                `.trim();
         },
         getCurrentChallenge: function (expression) {
             const currentChallenge = this.emojis.find((emoji) => !emoji.completed);

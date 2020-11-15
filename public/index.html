@@ -8,6 +8,14 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="style.css" />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22>
+      <text y=%22.9em%22 font-size=%2290%22>
+        😐
+      </text>
+    </svg>"
+        />
         <title>Expression Session</title>
     </head>
     <body>
@@ -32,7 +40,9 @@
                 </div>
                 <div class="challenge-emoji current">{{current}}</div>
                 <div class="upcoming-container">
-                    <span class="challenge-emoji" v-for="{emoji} in upComing" @click="newGame">{{emoji}}</span>
+                    <span class="challenge-emoji" v-for="{emoji} in upComing" @click="newGame"
+                        >{{emoji}}</span
+                    >
                 </div>
             </div>
         </main>
