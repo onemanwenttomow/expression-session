@@ -36,6 +36,8 @@ async function getMedia() {
         video.srcObject = stream;
     } catch (err) {
         console.error(err);
+        console.log('setting string...');
+        spinner.innerHTML = "<h1>Sorry, something went wrong. Please try again here <a href='https://expression-session.herokuapp.com/'>here</a></h1>"
     }
 }
 
